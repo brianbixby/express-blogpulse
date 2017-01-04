@@ -8,7 +8,9 @@ var app = express();
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(ejsLayouts);
 app.use(express.static(__dirname + '/public/'));
 /* middleware that allows us to access the 'moment' library
@@ -22,14 +24,16 @@ app.use(function(req, res, next) {
 // GET / - display all posts and their authors
 app.get('/', function(req, res) {
   db.post.findAll({
-    include: [db.author]
-  })
-  .then(function(posts) {
-    res.render('main/index', { posts: posts });
-  })
-  .catch(function(error) {
-    res.status(400).render('main/404');
-  });
+      include: [db.author]
+    })
+    .then(function(posts) {
+      res.render('main/index', {
+        posts: posts
+      });
+    })
+    .catch(function(error) {
+      res.status(400).render('main/404');
+    });
 });
 
 // bring in authors and posts controllers
